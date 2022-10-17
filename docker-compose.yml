@@ -1,0 +1,124 @@
+version: '3.4'
+
+services:
+  help:
+    image: ${DOCKER_REGISTRY-}help
+    build:
+      context: .
+      dockerfile: Help/Dockerfile
+    networks:
+      - oriondapr
+    depends_on:
+      - redis
+  help-dapr:
+      container_name: "help-sidecar"
+      image: "daprio/daprd:1.7.3"
+      command: [
+        "./daprd",
+        "-app-id", "help",
+        "-app-port", "80",
+        "-components-path", "/components",
+        "-config", "/configuration/config.yaml"
+        ]
+      volumes:
+        - "./dapr/components/:/components"
+        - "./dapr/configuration/:/configuration"
+      depends_on:
+        - help
+      network_mode: "service:help"
+  media:
+    image: ${DOCKER_REGISTRY-}media
+    build:
+      context: .
+      dockerfile: Media/Dockerfile
+    networks:
+      - oriondapr
+    depends_on:
+      - redis
+  media-dapr:
+      container_name: "media-sidecar"
+      image: "daprio/daprd:1.7.3"
+      command: [
+        "./daprd",
+        "-app-id", "media",
+        "-app-port", "80",
+        "-components-path", "/components",
+        "-config", "/configuration/config.yaml"
+        ]
+      volumes:
+        - "./dapr/components/:/components"
+        - "./dapr/configuration/:/configuration"
+      depends_on:
+        - media
+      network_mode: "service:media"
+  user:
+    image: ${DOCKER_REGISTRY-}user
+    build:
+      context: .
+      dockerfile: User/Dockerfile
+    networks:
+      - oriondapr
+    depends_on:
+      - redis
+  user-dapr:
+      container_name: "user-sidecar"
+      image: "daprio/daprd:1.7.3"
+      command: [
+        "./daprd",
+        "-app-id", "user",
+        "-app-port", "80",
+        "-components-path", "/components",
+        "-config", "/configuration/config.yaml"
+        ]
+      volumes:
+        - "./dapr/components/:/components"
+        - "./dapr/configuration/:/configuration"
+      depends_on:
+        - user
+      network_mode: "service:user"
+  webserver:
+    image: ${DOCKER_REGISTRY-}webserver
+    build:
+      context: .
+      dockerfile: WebServer/Dockerfile
+    networks:
+      - oriondapr
+    depends_on:
+      - redis
+  webserver-dapr:
+    container_name: "webserver-sidecar"
+    image: "daprio/daprd:1.7.3"
+    command: [
+      "./daprd",
+      "-app-id", "webserver",
+      "-app-port", "80",
+      "-components-path", "/components",
+      "-config", "/configuration/config.yaml"
+      ]
+    volumes:
+        - "./dapr/components/:/components"
+        - "./dapr/configuration/:/configuration"
+    depends_on:
+      - webserver
+    network_mode: "service:webserver"
+
+  zipkin:
+    container_name: "zipkin"
+    image: "openzipkin/zipkin-slim"
+    ports:
+      - 9411:9411
+    networks:
+      - oriondapr
+
+  redis:
+    container_name: "redis"
+    image: "redis:6.2-alpine"
+    ports:
+      - "5379:6379"
+    networks:
+      - oriondapr
+    volumes:
+     - "./data:/data"
+
+networks:
+  oriondapr:

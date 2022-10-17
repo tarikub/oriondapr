@@ -1,0 +1,43 @@
+version: '3.4'
+
+services:
+  webserver:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+    ports:
+      - "5106:80"
+      - "51001:50001"
+    volumes:
+    - ~/.aspnet/https:/root/.aspnet/https:ro
+    - ~/.microsoft/usersecrets:/root/.microsoft/usersecrets:ro
+  help:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+    ports:
+      - "5103:80"
+      - "51000:50001"
+    volumes:
+    - ~/.aspnet/https:/root/.aspnet/https:ro
+    - ~/.microsoft/usersecrets:/root/.microsoft/usersecrets:ro
+  media:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+    ports:
+      - "5104:80"
+      - "50001:50001"
+    volumes:
+    - ~/.aspnet/https:/root/.aspnet/https:ro
+    - ~/.microsoft/usersecrets:/root/.microsoft/usersecrets:ro
+  user:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+    ports:
+      - "5105:80"
+      - "51002:50001"
+    volumes:
+    - ~/.aspnet/https:/root/.aspnet/https:ro
+    - ~/.microsoft/usersecrets:/root/.microsoft/usersecrets:ro

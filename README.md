@@ -1,6 +1,6 @@
 # Fish Taco, Taqueria and Dapr 
 
-The goal of the project is to learn about Dapr by converting an existing durable function project. You can check the summary article on the inspiration for the project and the unusual title for the repo on [medium.com](https://medium.com/@tarikub/serverless-app-from-design-to-production-a-case-study-2985ba1a1a40?source=friends_link&sk=f378691edd27c27362d8559c0002c497). 
+The goal of the project is to learn about Dapr by converting an existing durable function project. You can check the summary article on the inspiration for the project and the unusual title for the repo on [medium.com](https://tarikub.medium.com/part-1-fish-taco-taqueria-and-dapr-e2e038bd2f9d). 
 
 ## Getting Started
 
@@ -39,7 +39,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 #### Running locally
 1. Clone this Git Repo
-1. From powershell terminal cd into the `OrionDapr` folder and run `docker compose up`
+1. From powershell terminal cd into the `OrionDapr` folder and run `docker compose up --build`
 
 #### Future updates
 To truly use the solution to support the Roku app the app need to be hosted in kubernetes cluster with cloud provider. Additional load balancing updates might be needed to make sure the Roku channel can reach out to the entry point of the `WebServer` application to call API end points.
